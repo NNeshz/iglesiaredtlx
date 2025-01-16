@@ -9,7 +9,7 @@
           Te ayudamos a que puedas comunicarte con nosotros por medio de este formulario.
         </p>
       </div>
-      <form action="#" method="POST" class="mt-3 flex flex-col gap-y-6">
+      <form id="contact-form" class="mt-3 flex flex-col gap-y-6">
         <!-- Full name input -->
         <div>
           <label for="full-name" class="sr-only">Full name</label>
@@ -18,8 +18,15 @@
             name="full-name"
             id="full-name"
             autocomplete="name"
-            class="hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-50 dark:bg-primary-950 ring-primary-900/40 dark:ring-primary-200/40 placeholder:text-primary-950/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 transition focus:outline-none focus:ring-2"
+            class="dark:bg-primary-900 text-primary-950 dark:text-primary-100 ring-primary-900/20 dark:ring-primary-200/20 hover:ring-primary-600 dark:hover:ring-primary-400 focus:ring-primary-600 dark:focus:ring-primary-400 placeholder:text-primary-950/60 dark:placeholder:text-primary-200/60 block
+            w-full appearance-none
+            rounded-md border-0
+            bg-white px-4
+            py-4 text-base
+            ring-1 transition
+            focus:outline-none focus:ring-2"
             placeholder="Nombre completo"
+            required
           />
         </div>
 
@@ -31,8 +38,15 @@
             name="email"
             id="email"
             autocomplete="email"
-            class="hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-50 dark:bg-primary-950 ring-primary-900/40 dark:ring-primary-200/40 placeholder:text-primary-950/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 transition focus:outline-none focus:ring-2"
+            class="dark:bg-primary-900 text-primary-950 dark:text-primary-100 ring-primary-900/20 dark:ring-primary-200/20 hover:ring-primary-600 dark:hover:ring-primary-400 focus:ring-primary-600 dark:focus:ring-primary-400 placeholder:text-primary-950/60 dark:placeholder:text-primary-200/60 block
+            w-full appearance-none
+            rounded-md border-0
+            bg-white px-4
+            py-4 text-base
+            ring-1 transition
+            focus:outline-none focus:ring-2"
             placeholder="Correo electrónico"
+            required
           />
         </div>
 
@@ -43,19 +57,111 @@
             name="message"
             id="message"
             rows="3"
-            class="hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-50 dark:bg-primary-950 ring-primary-900/40 dark:ring-primary-200/40 placeholder:text-primary-950/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 transition focus:outline-none focus:ring-2"
-            placeholder="Mensaje"></textarea>
+            placeholder="Mensaje"
+            class="w-full rounded-md p-4 dark:text-black"
+            required></textarea>
         </div>
 
         <div>
           <button
-            class="bg-primary-600 dark:bg-primary-400 hover:bg-primary-700 dark:hover:bg-primary-300 focus-visible:outline-primary-600 dark:focus-visible:outline-primary-400 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent px-5 py-3 text-base font-medium text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            class="inline-flex items-center justify-center rounded-full bg-black px-5 py-3 text-base font-medium text-white transition hover:bg-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:focus-visible:outline-zinc-400"
             type="submit"
           >
-            Submit
+            Enviar mensaje
           </button>
         </div>
       </form>
     </div>
+
+    <!-- Notification component -->
+    <div id="notification" class="fixed right-4 top-4 hidden transform transition-all duration-300">
+      <div class="rounded-lg p-4 shadow-lg">
+        <div
+          id="notification-success"
+          class="hidden items-center gap-2 rounded-lg bg-green-100 p-4 text-green-700 dark:bg-green-900 dark:text-green-100"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <span>¡Mensaje enviado con éxito!</span>
+        </div>
+        <div
+          id="notification-error"
+          class="hidden items-center gap-2 rounded-lg bg-red-100 p-4 text-red-700 dark:bg-red-900 dark:text-red-100"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <span id="error-message">Error al enviar el mensaje</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  function showNotification(type: 'success' | 'error', message?: string) {
+    const notification = document.getElementById('notification');
+    const successNotification = document.getElementById('notification-success');
+    const errorNotification = document.getElementById('notification-error');
+    const errorMessageElement = document.getElementById('error-message');
+
+    if (notification && successNotification && errorNotification && errorMessageElement) {
+      notification.classList.remove('hidden');
+
+      if (type === 'success') {
+        successNotification.classList.remove('hidden');
+        successNotification.classList.add('flex');
+        errorNotification.classList.add('hidden');
+        errorNotification.classList.remove('flex');
+      } else {
+        errorNotification.classList.remove('hidden');
+        errorNotification.classList.add('flex');
+        successNotification.classList.add('hidden');
+        successNotification.classList.remove('flex');
+        if (message) {
+          errorMessageElement.textContent = message;
+        }
+      }
+
+      // Hide notification after 5 seconds
+      setTimeout(() => {
+        notification.classList.add('hidden');
+        successNotification.classList.add('hidden');
+        errorNotification.classList.add('hidden');
+      }, 5000);
+    }
+  }
+
+  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification('success');
+        form.reset();
+      } else {
+        showNotification('error', data.error || 'Error al enviar el mensaje');
+      }
+    } catch (error) {
+      showNotification('error', 'Error al enviar el mensaje');
+      console.error(error);
+    }
+  });
+</script>
