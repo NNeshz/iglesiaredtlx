@@ -6,71 +6,10 @@
           ¿Requieres atención especial?
         </h2>
         <p class="text-primary-950/70 dark:text-primary-200/70 max-w-lg text-lg sm:text-xl">
-          Te ayudamos a que puedas comunicarte con nosotros por medio de este formulario.
+          Te ayudamos a que puedas comunicarte con nosotros por medio de las opciones que tenemos
+          disponibles.
         </p>
       </div>
-      <form id="contact-form" class="mt-3 flex flex-col gap-y-6">
-        <!-- Full name input -->
-        <div>
-          <label for="full-name" class="sr-only">Full name</label>
-          <input
-            type="text"
-            name="full-name"
-            id="full-name"
-            autocomplete="name"
-            class="dark:bg-primary-900 text-primary-950 dark:text-primary-100 ring-primary-900/20 dark:ring-primary-200/20 hover:ring-primary-600 dark:hover:ring-primary-400 focus:ring-primary-600 dark:focus:ring-primary-400 placeholder:text-primary-950/60 dark:placeholder:text-primary-200/60 block
-            w-full appearance-none
-            rounded-md border-0
-            bg-white px-4
-            py-4 text-base
-            ring-1 transition
-            focus:outline-none focus:ring-2"
-            placeholder="Nombre completo"
-            required
-          />
-        </div>
-
-        <!-- Email input -->
-        <div>
-          <label for="email" class="sr-only">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            autocomplete="email"
-            class="dark:bg-primary-900 text-primary-950 dark:text-primary-100 ring-primary-900/20 dark:ring-primary-200/20 hover:ring-primary-600 dark:hover:ring-primary-400 focus:ring-primary-600 dark:focus:ring-primary-400 placeholder:text-primary-950/60 dark:placeholder:text-primary-200/60 block
-            w-full appearance-none
-            rounded-md border-0
-            bg-white px-4
-            py-4 text-base
-            ring-1 transition
-            focus:outline-none focus:ring-2"
-            placeholder="Correo electrónico"
-            required
-          />
-        </div>
-
-        <!-- Message textarea -->
-        <div>
-          <label for="message" class="sr-only">Message</label>
-          <textarea
-            name="message"
-            id="message"
-            rows="3"
-            placeholder="Mensaje"
-            class="w-full rounded-md p-4 dark:text-black"
-            required></textarea>
-        </div>
-
-        <div>
-          <button
-            class="inline-flex items-center justify-center rounded-full bg-black px-5 py-3 text-base font-medium text-white transition hover:bg-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:focus-visible:outline-zinc-400"
-            type="submit"
-          >
-            Enviar mensaje
-          </button>
-        </div>
-      </form>
     </div>
 
     <!-- Notification component -->
@@ -104,64 +43,3 @@
     </div>
   </div>
 </section>
-
-<script>
-  function showNotification(type: 'success' | 'error', message?: string) {
-    const notification = document.getElementById('notification');
-    const successNotification = document.getElementById('notification-success');
-    const errorNotification = document.getElementById('notification-error');
-    const errorMessageElement = document.getElementById('error-message');
-
-    if (notification && successNotification && errorNotification && errorMessageElement) {
-      notification.classList.remove('hidden');
-
-      if (type === 'success') {
-        successNotification.classList.remove('hidden');
-        successNotification.classList.add('flex');
-        errorNotification.classList.add('hidden');
-        errorNotification.classList.remove('flex');
-      } else {
-        errorNotification.classList.remove('hidden');
-        errorNotification.classList.add('flex');
-        successNotification.classList.add('hidden');
-        successNotification.classList.remove('flex');
-        if (message) {
-          errorMessageElement.textContent = message;
-        }
-      }
-
-      // Hide notification after 5 seconds
-      setTimeout(() => {
-        notification.classList.add('hidden');
-        successNotification.classList.add('hidden');
-        errorNotification.classList.add('hidden');
-      }, 5000);
-    }
-  }
-
-  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        showNotification('success');
-        form.reset();
-      } else {
-        showNotification('error', data.error || 'Error al enviar el mensaje');
-      }
-    } catch (error) {
-      showNotification('error', 'Error al enviar el mensaje');
-      console.error(error);
-    }
-  });
-</script>
