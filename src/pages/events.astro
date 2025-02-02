@@ -1,17 +1,12 @@
 ---
-import Cta from '../components/pricing/Cta.astro';
-import Faq from '../components/pricing/Faq.astro';
-import Heading from '../components/pricing/Heading.astro';
-import PricingTable from '../components/pricing/PricingTable.astro';
+import Cta from '../components/events/Cta.astro';
+import EventsList from '../components/events/EventsList.astro';
+import Heading from '../components/events/Heading.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout
-  description="Find the pricing plan that best fits your needs. Plans include seats, projects, support and more"
-  title="Pricing · Stone"
->
+<Layout description="Conoce los eventos de la Iglesia Red TLX" title="Eventos · Iglesia Red TLX">
   <Heading />
-  <!-- <PricingTable /> -->
-  <!-- <Faq /> -->
-  <!-- <Cta /> -->
+  <EventsList />
+  <Cta />
 </Layout>
