@@ -1,0 +1,28 @@
+---
+import { grupos } from '../../data/grupos';
+---
+
+<section class="py-16 sm:py-20">
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class="flex flex-col gap-8 lg:gap-12">
+      <h2 class="text-center text-3xl font-medium tracking-tight sm:text-4xl">Oferta Completa</h2>
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
+        {
+          grupos.map((grupo) => (
+            <a
+              href={`/grupos/${grupo.slug}`}
+              class="bg-primary-500/10 dark:bg-primary-400/10 flex flex-col gap-6 rounded-3xl px-6 py-8"
+            >
+              <img
+                src={grupo.image}
+                alt={grupo.title}
+                class="h-full w-full rounded-lg object-cover"
+              />
+              <h3 class="text-2xl font-medium">{grupo.title}</h3>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

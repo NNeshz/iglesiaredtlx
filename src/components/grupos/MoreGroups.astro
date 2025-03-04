@@ -1,0 +1,33 @@
+---
+import { grupos } from '../../data/grupos';
+
+// Recibir el slug del grupo actual como prop
+const { currentSlug } = Astro.props;
+
+// Filtrar el grupo actual y luego seleccionar 4 aleatorios
+const filteredGroups = grupos.filter((grupo) => grupo.slug !== currentSlug);
+const randomFourGroups = filteredGroups.sort(() => Math.random() - 0.5).slice(0, 4);
+---
+
+<section class="py-16 sm:py-20">
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class="flex flex-col justify-start gap-4 sm:gap-6">
+      <h3 class="text-3xl font-medium tracking-tight sm:text-4xl">Más grupos</h3>
+      <p class="text-primary-950/70 dark:text-primary-200/70 max-w-xl text-lg sm:text-xl">
+        Hay un grupo para ti, no te quedes sin conocerlo
+      </p>
+    </div>
+    <div class="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        randomFourGroups.map((grupo) => (
+          <a href={`/grupos/${grupo.slug}`} class="group">
+            <div class="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg">
+              <img src={grupo.image} alt={grupo.title} class="h-full w-full object-cover" />
+            </div>
+            <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">{grupo.title}</h3>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

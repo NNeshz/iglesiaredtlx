@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { grupos } from '../../data/grupos';
+import MoreGroups from '../../components/grupos/MoreGroups.astro';
+import Whatsapp from '../../components/global/icons/whatsapp.astro';
+// Función para generar las rutas estáticas
+export async function getStaticPaths() {
+  return grupos.map((grupo) => ({
+    params: { grupo: grupo.slug },
+    props: { grupo },
+  }));
+}
+
+const { grupo } = Astro.props;
+---
+
+<Layout title={`${grupo.title} · Iglesia Red TLX`} description={grupo.description}>
+  <div class="py-16 sm:py-20">
+    <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div class="flex flex-col gap-8 md:flex-row">
+        <img src={grupo.image} alt={grupo.title} class="h-96 rounded-3xl object-cover" />
+        <div class="flex flex-col gap-8">
+          <div class="flex flex-col gap-4">
+            <h1 class="text-4xl font-medium">{grupo.title}</h1>
+            <p class="text-lg">{grupo.description}</p>
+          </div>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div>
+              <h3 class="text-2xl font-medium">Horario</h3>
+              <p class="text-lg">{grupo.schedule}</p>
+            </div>
+            <div>
+              <h3 class="text-2xl font-medium">Ubicación</h3>
+              <p class="text-lg">{grupo.location}</p>
+            </div>
+            <div>
+              <h3 class="text-2xl font-medium">Facilitador</h3>
+              <p class="text-lg">{grupo.leader}</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href={`https://wa.me/${grupo.leaderPhone}?text=Hola, quisiera saber más sobre el grupo ${grupo.title}`}
+              target="_blank"
+              class="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-base font-medium text-white transition hover:bg-[#2ae06a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+            >
+              <Whatsapp class="h-5 w-5" />
+               Contactar por WhatsApp
+            </a>
+
+            <a
+              href="https://docs.google.com/forms/d/1WY3V3kQdROvcOfZ7tbSMLcw7tDhTZOTTvS7rUjQfAyI/viewform?edit_requested=true"
+              target="_blank"
+              class="inline-flex items-center justify-center rounded-full bg-black px-5 py-3 text-base font-medium text-white transition hover:bg-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-600 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:focus-visible:outline-zinc-400"
+            >
+              Registrarse al grupo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <MoreGroups currentSlug={grupo.slug} />
+</Layout>
